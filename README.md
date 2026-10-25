@@ -6,7 +6,7 @@ Each villager has needs, traits, memories, relationships, and an evolving brain.
 
 [Try the live project](https://freewill-drab.vercel.app) · [Read the documentation](docs/README.md) · [See the roadmap](ROADMAP.md)
 
-![Freewill world running in the browser](docs/assets/freewill-world.png)
+![Freewill villagers learning, gathering, cooperating, and building a settlement](docs/assets/freewill-intro.gif)
 
 > **Alpha software:** Freewill is a playable research side project, not a finished game or a claim that these agents are conscious. Simulation rules, brain contracts, and save formats will continue to evolve.
 
