@@ -1,0 +1,27 @@
+node_modules/
+dist/
+dist-server/
+test-results/
+playwright-report/
+.DS_Store
+*.log
+.env
+.env.*
+!.env.example
+data/brains/
+services/brain/data/
+**/__pycache__/
+.pytest_cache/
+
+# Local design/reference exports. Runtime files live in public/little-worlds/.
+Little Worlds Pixel Simulator/
+Copy of Little Worlds Pixel Simulator economy/
+.design-references/
+
+# Local databases, checkpoints, recordings, and experiment output.
+data/
+*.sqlite
+*.sqlite3
+*.db
+*.safetensors
+recordings/

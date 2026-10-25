@@ -1,0 +1,50 @@
+name: Bug report
+description: Report a reproducible problem in the simulation, UI, services, or documentation.
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for helping make the little world more reliable. Remove secrets and private world data before posting.
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: v0.1.0-alpha or commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Simulation
+        - Evolving brains or experiments
+        - Observatory or replay
+        - Rendering or UI
+        - Persistence or database
+        - Docker or deployment
+        - External decision provider
+        - Documentation
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Include what you expected and what occurred instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      placeholder: Include world seed, environment version, decision mode, population, tick/day, and exact actions when relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: diagnostics
+    attributes:
+      label: Relevant diagnostics
+      description: Paste sanitized logs, invariant messages, screenshots, or replay details. Never include keys.
+

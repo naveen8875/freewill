@@ -1,0 +1,49 @@
+{
+  "name": "freewill",
+  "version": "0.1.0",
+  "description": "An open-ended AI society simulation with evolving local brains and a deterministic physical world.",
+  "license": "MIT",
+  "private": true,
+  "packageManager": "pnpm@11.25.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build && pnpm build:server",
+    "build:server": "esbuild server/index.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist-server/index.js --packages=external",
+    "start": "node dist-server/index.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "verify:release": "node scripts/verify-release.mjs",
+    "benchmark": "RUN_FREEWILL_BENCHMARKS=1 vitest run src/sim/performance.benchmark.test.ts --reporter=verbose",
+    "benchmark:browser": "RUN_FREEWILL_BROWSER_BENCHMARK=1 playwright test e2e/performance.spec.ts --project=chrome --reporter=line",
+    "benchmark:phase1": "RUN_FREEWILL_BRAIN_BENCHMARKS=1 vitest run src/sim/headless/phaseOneScale.benchmark.test.ts --reporter=verbose"
+  },
+  "dependencies": {
+    "dexie": "^4.4.7",
+    "pg": "^8.16.3",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "zod": "^4.6.7",
+    "zustand": "^5.0.16"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.64.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^26.6.5",
+    "@types/pg": "^8.15.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "esbuild": "^0.25.12",
+    "jsdom": "^30.1.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.5",
+    "vitest": "^5.0.5"
+  }
+}

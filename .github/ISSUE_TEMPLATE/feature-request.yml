@@ -1,0 +1,24 @@
+name: Feature request
+description: Propose a world system, experiment, visualization, or developer improvement.
+title: "[Idea]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Explain who owns the behavior, what resources or consequences it affects, and how it stays observable.
+    validations:
+      required: true
+  - type: textarea
+    id: integrity
+    attributes:
+      label: Simulation and experiment impact
+      description: Could this change saves, actions, rewards, observations, determinism, or held-out comparisons?
+

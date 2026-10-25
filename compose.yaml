@@ -1,0 +1,93 @@
+name: freewill
+
+services:
+  brain:
+    build:
+      context: ./services/brain
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      FREEWILL_BRAIN_DATA: /data/brains
+      FREEWILL_BRAIN_TOKEN: ${FREEWILL_BRAIN_TOKEN:-freewill-local-brain}
+      FREEWILL_BRAIN_THREADS: ${FREEWILL_BRAIN_THREADS:-2}
+    volumes:
+      - freewill_brains:/data/brains
+    ports:
+      - "127.0.0.1:${BRAIN_PORT:-8008}:8008"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8008/v1/health', timeout=2)"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+      start_period: 20s
+    security_opt:
+      - no-new-privileges:true
+
+  postgres:
+    image: postgres:17.11-alpine3.23
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-freewill}
+      POSTGRES_USER: ${POSTGRES_USER:-freewill}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-freewill-local-change-me}
+    volumes:
+      - freewill_postgres:/var/lib/postgresql/data
+    ports:
+      - "127.0.0.1:${POSTGRES_PORT:-55432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 10s
+    security_opt:
+      - no-new-privileges:true
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    environment:
+      PGHOST: postgres
+      PGPORT: 5432
+      PGDATABASE: ${POSTGRES_DB:-freewill}
+      PGUSER: ${POSTGRES_USER:-freewill}
+      PGPASSWORD: ${POSTGRES_PASSWORD:-freewill-local-change-me}
+      DATABASE_POOL_SIZE: ${DATABASE_POOL_SIZE:-10}
+      PUBLIC_APP_URL: ${PUBLIC_APP_URL:-http://localhost:5173}
+      DATABASE_DASHBOARD_URL: ${DATABASE_DASHBOARD_URL:-http://localhost:8080}
+      BRAIN_SERVICE_URL: http://brain:8008
+      FREEWILL_BRAIN_TOKEN: ${FREEWILL_BRAIN_TOKEN:-freewill-local-brain}
+    ports:
+      - "${APP_PORT:-5173}:3000"
+    depends_on:
+      brain:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3000/api/health/ready').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+    security_opt:
+      - no-new-privileges:true
+
+  dashboard:
+    image: adminer:5.5.1-standalone
+    restart: unless-stopped
+    environment:
+      ADMINER_DEFAULT_SERVER: postgres
+    ports:
+      - "127.0.0.1:${DASHBOARD_PORT:-8080}:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    security_opt:
+      - no-new-privileges:true
+
+volumes:
+  freewill_postgres:
+  freewill_brains:

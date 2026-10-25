@@ -1,0 +1,16 @@
+node_modules
+dist
+dist-server
+.git
+.env
+.env.*
+!.env.example
+test-results
+playwright-report
+*.log
+.DS_Store
+Little Worlds Pixel Simulator
+Copy of Little Worlds Pixel Simulator economy
+.design-references
+data
+recordings

@@ -1,0 +1,33 @@
+name: Experiment result
+description: Share a reproducible evolution result, regression, or surprising behavior.
+title: "[Experiment]: "
+labels: [experiment]
+body:
+  - type: input
+    id: environment
+    attributes:
+      label: Environment and reward versions
+      placeholder: freewill-sim-v7-integrity, reward version…
+    validations:
+      required: true
+  - type: textarea
+    id: configuration
+    attributes:
+      label: Configuration
+      description: Population, generations, days, training seeds, held-out seeds, replicates, mutations, and thread count.
+    validations:
+      required: true
+  - type: textarea
+    id: result
+    attributes:
+      label: Result
+      description: Include parent and descendant metrics, not only the most interesting episode.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: How can somebody reproduce it?
+    validations:
+      required: true
+
